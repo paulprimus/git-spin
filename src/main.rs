@@ -11,9 +11,14 @@ use datastore::gitfs;
 
 fn main() {
     println!("Welcome to Git Spin");
-    let current_dir: PathBuf = std::env::current_dir().unwrap();
-    gitfs::from(&current_dir).expect("Store konnte nicht erstellt werden!");
-    //println!("{}", store);
+    let current_dir: PathBuf = match std::env::current_dir() {
+        Ok(v) => v,
+        Err(_e) => {
+            println!{"Das aktuelle Verzeichnis konnte nicht geöffnet werden"}
+            return;
+        }
+    };
+    let store = gitfs::from(&current_dir).expect("Store konnte nicht erstellt werden!");
 }
 
 #[test]
